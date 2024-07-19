@@ -27,3 +27,31 @@ using namespace std;
 #define LOGIN_ADMIN 3
 #define LOGIN_USER 4
 #define EXIT 5
+
+struct Question {
+    int id;
+    int quizId;
+    string question;
+    string answer;
+};
+
+struct User {
+    int id;
+    string username;
+    string password;
+    bool isAdmin;
+};
+
+struct Result {
+    int userId;
+    int quizId;
+    int score;
+    string dateTaken;
+};
+
+vector<Question> questions;
+vector<User> users;
+vector<Result> results;
+
+int nextQuestionId = 1;
+int nextUserId = 1;
