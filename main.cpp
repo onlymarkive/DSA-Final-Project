@@ -55,3 +55,24 @@ vector<Result> results;
 
 int nextQuestionId = 1;
 int nextUserId = 1;
+
+bool isUsernameExists(const string& username){
+    auto it = find_if(users.begin(), users.end(), [&](const User& user){
+        return user.username == username;
+    });
+    return it != users.end();
+}
+
+bool authenticateAdmin(const string& username, const string& password){
+    auto it = find_if(users.begin(), users.end(), [&](const User& user){
+        return user.username == username && user.password == password && user.isAdmin;
+    }):
+    return it != users.end();
+}
+
+bool authenticateUser(const string& username, const string& password){
+    auto it = find_if(users.begin(), users.end(), [&](const User& user){
+        return user.username == username && user.password == password && !user.isAdmin;
+    });
+    return it != users.end();
+}
