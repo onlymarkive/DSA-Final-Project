@@ -76,3 +76,59 @@ bool authenticateUser(const string& username, const string& password){
     });
     return it != users.end();
 }
+
+void addQuizQuestion(int quizId, const string& question, const string& answer) {
+    questions.push_back({nextQuestionId++, quizId, question, answer});
+}
+
+void editQuizQuestion() {
+    cout << "Available Questions:" << endl;
+    for (const auto& question : questions) {
+        cout << "ID: " << question.id << ", Quiz ID: " << question.quizId << ", Question: " << question.question << endl;
+    }
+
+    int questionId;
+    cout << "Enter Question ID to edit: ";
+    cin >> questionId;
+
+    auto it = find_if(questions.begin(), questions.end(), [&](const Question& q) {
+        return q.id == questionId;
+    });
+
+    if (it != questions.end()) {
+        string newQuestion, newAnswer;
+        cout << "Enter New Question: ";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+        getline(cin, newQuestion);
+        cout << "Enter New Answer: ";
+        getline(cin, newAnswer);
+
+        it->question = newQuestion;
+        it->answer = newAnswer;
+        cout << "Question ID " << questionId << " has been updated successfully." << endl;
+    } else {
+        cout << "Question ID " << questionId << " not found." << endl;
+    }
+}
+
+void deleteQuizQuestion() {
+    cout << "Available Questions:" << endl;
+    for (const auto& question : questions) {
+        cout << "ID: " << question.id << ", Quiz ID: " << question.quizId << ", Question: " << question.question << endl;
+    }
+
+    int questionId;
+    cout << "Enter Question ID to delete: ";
+    cin >> questionId;
+
+    auto it = find_if(questions.begin(), questions.end(), [&](const Question& q) {
+        return q.id == questionId;
+    });
+
+    if (it != questions.end()) {
+        questions.erase(it);
+        cout << "Question ID " << questionId << " has been deleted successfully." << endl;
+    } else {
+        cout << "Question ID " << questionId << " not found." << endl;
+    }
+}
