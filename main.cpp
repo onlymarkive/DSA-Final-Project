@@ -132,3 +132,39 @@ void deleteQuizQuestion() {
         cout << "Question ID " << questionId << " not found." << endl;
     }
 }
+
+void viewAllQuestions() {
+    for (const auto& question : questions) {
+        cout << "ID: " << question.id << ", Quiz ID: " << question.quizId << ", Question: " << question.question << ", Answer: " << question.answer << endl;
+    }
+}
+
+void viewResultsByUser(const string& userID) {
+    bool foundResults = false;
+    for (const auto& result : results) {
+        if (to_string(result.userId) == userID) {
+            auto userIt = find_if(users.begin(), users.end(), [&](const User& user) {
+                return user.id == result.userId;
+            });
+            if (userIt != users.end()) {
+                cout << "User: " << userIt->username << ", Quiz ID: " << result.quizId << ", Score: " << result.score << ", Date: " << result.dateTaken << endl;
+                foundResults = true;
+            }
+        }
+    }
+    if (!foundResults) {
+        cout << "No results found for User ID " << userID << "." << endl;
+    }
+}
+
+void viewResultsByQuiz(int quizId) {
+    for (const auto& result : results) {
+        if (result.quizId == quizId) {
+            auto userIt = find_if(users.begin(), users.end(), [&](const User& user) {
+                return user.id == result.userId;
+            });
+            string username = (userIt != users.end()) ? userIt->username : "Unknown";
+            cout << "User: " << username << ", Score: " << result.score << ", Date: " << result.dateTaken << endl;
+        }
+    }
+}
