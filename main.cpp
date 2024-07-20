@@ -168,3 +168,84 @@ void viewResultsByQuiz(int quizId) {
         }
     }
 }
+
+void takeQuiz(int quizId, int userId) {
+    int score = 0;
+    int totalQuestions = 0;
+
+    auto now = chrono::system_clock::now();
+    time_t now_c = chrono::system_clock::to_time_t(now);
+
+    char buffer[80];
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", localtime(&now_c));
+    string dateStr(buffer);
+
+    for (const auto& question : questions) {
+        if (question.quizId == quizId) {
+            cout << "+---------------------------------------+" << endl;
+            cout << "| ************ Question " << question.id << " ************ |" << endl;
+            cout << "+---------------------------------------+" << endl;
+            cout << "| " << question.question << endl;
+            cout << "+---------------------------------------+" << endl;
+
+            string userAnswer;
+            cout << "Your answer: ";
+            cin >> userAnswer;
+
+            if (userAnswer == question.answer) {
+                score++;
+            }
+            totalQuestions++;
+        }
+    }
+
+    results.push_back({userId, quizId, score, dateStr}); 
+    cout << "+---------------------------------------+" << endl;
+    cout << "| ************* Quiz Complete ********** |" << endl;
+    cout << "+---------------------------------------+" << endl;
+    cout << "Your score: " << score << "/" << totalQuestions << endl;
+}
+
+void generateReport() {
+    for (const auto& result : results) {
+        auto userIt = find_if(users.begin(), users.end(), [&](const User& user) {
+            return user.id == result.userId;
+        });
+        string username = (userIt != users.end()) ? userIt->username : "Unknown";
+
+        cout << "User: " << username << ", Quiz ID: " << result.quizId << ", Score: " << result.score << ", Date: " << result.dateTaken << endl;
+    }
+}
+
+void signUp(bool isAdmin) {
+    string username, password;
+    cout << "Enter username: ";
+    cin >> username;
+
+    if (isUsernameExists(username)) {
+        cout << "Username already exists. Please choose a different one." << endl;
+        return;
+    }
+
+    cout << "Enter password: ";
+    cin >> password;
+    users.push_back({nextUserId++, username, password, isAdmin});
+    cout << (isAdmin ? "Admin" : "User") << " account created successfully." << endl;
+}
+
+void resetPassword(int userId) {
+    string newPassword;
+    cout << "Enter new password: ";
+    cin >> newPassword;
+
+    auto it = find_if(users.begin(), users.end(), [&](const User& user) {
+        return user.id == userId;
+    });
+
+    if (it != users.end()) {
+        it->password = newPassword;
+        cout << "Password reset successfully." << endl;
+    } else {
+        cout << "User not found." << endl;
+    }
+}
