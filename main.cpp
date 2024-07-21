@@ -249,3 +249,109 @@ void resetPassword(int userId) {
         cout << "User not found." << endl;
     }
 }
+void handleAdminLogin() {
+    string username, password;
+    cout << "Username: ";
+    cin >> username;
+    cout << "Password: ";
+    cin >> password;
+
+    if (authenticateAdmin(username, password)) {
+        int userId = find_if(users.begin(), users.end(), [&](const User& user) {
+            return user.username == username;
+        })->id;
+
+        while (true) {
+            cout << "+----------------------------------------+" << endl;
+            cout << "| ************** Admin Menu ************ |" << endl;
+            cout << "+----------------------------------------+" << endl;
+            cout << "| 1. Add Question                        |" << endl;
+            cout << "| 2. Edit Question                       |" << endl;
+            cout << "| 3. Delete Question                     |" << endl;
+            cout << "| 4. View All Questions                  |" << endl;
+            cout << "| 5. View Results by User                |" << endl;
+            cout << "| 6. View Results by Quiz                |" << endl;
+            cout << "| 7. Generate Report                     |" << endl;
+            cout << "| 8. Logout                              |" << endl;
+            cout << "+----------------------------------------+" << endl;
+            cout << "Choose an option: ";
+
+            int choice;
+            while (!(cin >> choice) || (choice < ADD_QUESTION || choice > ADMIN_LOGOUT)) {
+                cout << "Invalid option. Please enter a number between 1 and 8." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+
+            switch (choice) {
+                case ADD_QUESTION: {
+                    int quizId;
+                    string question, answer;
+                    cout << "Enter Quiz ID: ";
+                    while (!(cin >> quizId)) {
+                        cout << "Invalid input. Please enter a valid Quiz ID: ";
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    }
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Enter Question: ";
+                    getline(cin, question);
+                    cout << "Enter Answer: ";
+                    getline(cin, answer);
+                    addQuizQuestion(quizId, question, answer);
+                    break;
+                }
+                case EDIT_QUESTION: {
+                    editQuizQuestion();  
+                    break;
+                }
+                case DELETE_QUESTION: {
+                    deleteQuizQuestion(); 
+                    break;
+                }
+                case VIEW_ALL_QUESTIONS:
+                    viewAllQuestions();
+                    break;
+                case VIEW_RESULTS_BY_USER: {
+                    string username;
+                    cout << "Enter Username: ";
+                    cin >> username;
+
+                    auto userIt = find_if(users.begin(), users.end(), [&](const User& user) {
+                        return user.username == username;
+                    });
+
+                    if (userIt != users.end()) {
+                        viewResultsByUser(to_string(userIt->id)); 
+                    } else {
+                        cout << "User '" << username << "' not found." << endl;
+                    }
+                    break;
+                }
+                case VIEW_RESULTS_BY_QUIZ: {
+                    int quizId;
+                    cout << "Enter Quiz ID: ";
+                    while (!(cin >> quizId)) {
+                        cout << "Invalid input. Please enter a valid Quiz ID: ";
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    }
+                    viewResultsByQuiz(quizId);
+                    break;
+                }
+                case GENERATE_REPORT:
+                    generateReport();
+                    break;
+                case ADMIN_LOGOUT:
+                    cout << "Logging out..." << endl;
+                    return;
+                default:
+                    cout << "Invalid option. Please try again." << endl;
+                    break;
+            }
+        }
+    } else {
+        cout << "Invalid username or password." << endl;
+    }
+}
+
