@@ -355,3 +355,63 @@ void handleAdminLogin() {
     }
 }
 
+void handleUserLogin() {
+    string username, password;
+    cout << "Username: ";
+    cin >> username;
+    cout << "Password: ";
+    cin >> password;
+
+    if (authenticateUser(username, password)) {
+        int userId = find_if(users.begin(), users.end(), [&](const User& user) {
+            return user.username == username;
+        })->id;
+
+        while (true) {
+            cout << "+----------------------------------------+" << endl;
+            cout << "| ************** User Menu ************* |" << endl;
+            cout << "+----------------------------------------+" << endl;
+            cout << "| 1. Take Quiz                           |" << endl;
+            cout << "| 2. View Scores                         |" << endl;
+            cout << "| 3. Reset Password                      |" << endl;
+            cout << "| 4. Logout                              |" << endl;
+            cout << "+----------------------------------------+" << endl;
+            cout << "Choose an option: ";
+
+            int choice;
+            while (!(cin >> choice) || (choice < TAKE_QUIZ || choice > USER_LOGOUT)) {
+                cout << "Invalid option. Please enter a number between 1 and 4." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+
+            switch (choice) {
+                case TAKE_QUIZ: {
+                    int quizId;
+                    cout << "Enter Quiz ID: ";
+                    while (!(cin >> quizId)) {
+                        cout << "Invalid input. Please enter a valid Quiz ID: ";
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    }
+                    takeQuiz(quizId, userId);
+                    break;
+                }
+                case VIEW_SCORES:
+                    viewResultsByUser(to_string(userId));
+                    break;
+                case RESET_PASSWORD:
+                    resetPassword(userId);
+                    break;
+                case USER_LOGOUT:
+                    cout << "Logging out..." << endl;
+                    return;
+                default:
+                    cout << "Invalid option. Please try again." << endl;
+                    break;
+            }
+        }
+    } else {
+        cout << "Invalid username or password." << endl;
+    }
+}
