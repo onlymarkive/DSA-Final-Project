@@ -249,6 +249,7 @@ void resetPassword(int userId) {
         cout << "User not found." << endl;
     }
 }
+
 void handleAdminLogin() {
     string username, password;
     cout << "Username: ";
@@ -415,3 +416,63 @@ void handleUserLogin() {
         cout << "Invalid username or password." << endl;
     }
 }
+
+int main() {
+        cout << "+-----------------------------------------+" << endl;
+        cout << "| ************** WELCOME TO ************* |" << endl;
+        cout << "+-----------------------------------------+" << endl;
+        cout << "       _______ ______  _____ _______ " << endl;
+        cout << "      |__   __|  ____|/ ____|__   __|" << endl;
+        cout << "         | |  | |__  | (___    | |   " << endl;
+        cout << "         | |  |  __|  \\___ \\   | |   " << endl;
+        cout << "         | |  | |____ ____) |  | |   " << endl;
+        cout << "         |_|  |______|_____/   |_|   " << endl;
+        cout << "   _____ ______ _   _ _____ _    _  _____ " << endl;
+        cout << "  / ____|  ____| \\ | |_   _| |  | |/ ____|" << endl;
+        cout << " | |  __| |__  |  \\| | | | | |  | | (___  " << endl;
+        cout << " | | |_ |  __| | . ` | | | | |  | |\\___ \\ " << endl;
+        cout << " | |__| | |____| |\\  |_| |_| |__| |____) |" << endl;
+        cout << "  \\_____|______|_| \\_|_____|\\____/|_____/ " << endl;
+        cout << "                                          " << endl;
+    while (true) {
+        cout << "+-----------------------------------------+" << endl;
+        cout << "|        1. Admin Sign Up                 |" << endl;
+        cout << "|        2. User Sign Up                  |" << endl;
+        cout << "|        3. Admin Login                   |" << endl;
+        cout << "|        4. User Login                    |" << endl;
+        cout << "|        5. Exit                          |" << endl;
+        cout << "+-----------------------------------------+" << endl;
+        cout << "Choose an option: ";
+
+        int choice;
+        while (!(cin >> choice) || choice < SIGNUP_ADMIN || choice > EXIT) {
+            cout << "Invalid option. Please enter a number between 1 and 5." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+        switch (choice) {
+            case SIGNUP_ADMIN:
+                signUp(true);
+                break;
+            case SIGNUP_USER:
+                signUp(false);
+                break;
+            case LOGIN_ADMIN:
+                handleAdminLogin();
+                break;
+            case LOGIN_USER:
+                handleUserLogin();
+                break;
+            case EXIT:
+                cout << "Exiting the program..." << endl;
+                return 0;
+            default:
+                cout << "Invalid option. Please try again." << endl;
+                break;
+        }
+    }
+
+    return 0;
+}
+
