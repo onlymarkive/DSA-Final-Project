@@ -66,7 +66,7 @@ bool isUsernameExists(const string& username){
 bool authenticateAdmin(const string& username, const string& password){
     auto it = find_if(users.begin(), users.end(), [&](const User& user){
         return user.username == username && user.password == password && user.isAdmin;
-    }):
+    });
     return it != users.end();
 }
 
