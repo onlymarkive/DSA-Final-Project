@@ -47,3 +47,34 @@ IOQES enables administrators to create and manage quizzes, including adding, edi
 - **Reporting**:
    - Generate and review detailed reports on quiz results for both administrative analysis and evaluation.
 
+### Problem it Solves
+IOQES simplifies the management and administration of quizzes by providing an intuitive interface for administrators and users. It enhances the efficiency of quiz operations and supports sustainable educational practices.
+
+### Sustainable Development Goal
+This project aligns with **Goal 4: Quality Education** of the United Nations Sustainable Development Goals (SDGs). It aims to provide inclusive and equitable quality education and promote lifelong learning opportunities for all.
+
+## Database Management System 📥
+The current implementation does not utilize an external database management system such as SQLite. All data is stored in memory during the program's execution and will not persist once the program is terminated.
+
+## Technology Stacks ⚙️ 
+- **Programming Language**: C++
+- **Libraries**: Standard Template Library (STL)
+- **Development Environment**: Any C++ compiler (e.g., GCC, Clang, MSVC)
+- **Encryption**: Basic password encryption methods within C++
+
+## Contributors, Course, and Course Facilitator 👷‍ 
+ 
+| Name                         | Role       | Email                         |
+|------------------------------|------------|-------------------------------|
+| [Lacerna, James Louie](https://github.com/kenwichu) | Developer  | 23-05991@g.batstate-u.edu.ph    |
+| [Rectin, Marielle](https://github.com/onlymarkive)   | Developer  | 23-06330@g.batstate-u.edu.ph    |
+| [Rivera, Irish](https://github.com/kelleeerrrr)      | Developer  | 23-00679@g.batstate-u.edu.ph  |
+ 
+### Course
+Cs 131 - Data Structure and Analysis
+ 
+### Course Facilitator
+Ms. Fatima Marie Agdon, MSCS
+
+  
+
